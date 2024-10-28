@@ -51,7 +51,7 @@ document.addEventListener('keydown', function(event) {
 updateSlider();
 
 // Navigation automatique (optionnel)
-let autoSlideInterval = setInterval(nextSlide, 5000);
+let autoSlideInterval = setInterval(nextSlide, 9000);
 
 // Fonction pour réinitialiser le timer de défilement automatique
 function resetAutoSlideTimer() {
