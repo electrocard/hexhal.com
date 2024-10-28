@@ -1,0 +1,17 @@
+.image-container {
+  display: inline-block;
+  position: relative;
+  overflow: visible;
+}
+
+.hover-effect {
+  transition: all 0.3s ease;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.hover-effect:hover {
+  transform: scale(1.03);
+  z-index: 1;
+}
