@@ -4,6 +4,11 @@ body {
   background-color: #404040;
 
 }
+@font-face {
+  font-family: Roboto;
+  src: url(../fonts/Roboto-Black.ttf);
+}
+
 
 .slider-container {
   top: 100px;
@@ -87,6 +92,8 @@ color: white;
 border: none;
 border-radius: 5px;
 cursor: pointer;
+font-family: Roboto;
+font-size: 1em;
 }
 .button1:hover {
 background-color: #ffa155;
@@ -98,10 +105,12 @@ background-color: #ffa155;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  }
-  .button2:hover {
+  font-family: Roboto;
+  font-size: 1em;
+}
+.button2:hover {
   background-color: #ff9f51;
-  }
+}
 
 .logo{
 padding-left: 200px;
