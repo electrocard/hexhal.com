@@ -1,0 +1,91 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../fonts/Roboto-Black.ttf);
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    margin:0;
+    padding: 0;
+    background-color: #565656;
+}
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+    position: absolute;
+    bottom: 0;
+    background-color: #404040;
+    color: white;
+    width: 100%;
+}
+.login{
+    display: flex;
+    color: rgb(104, 104, 104);
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 600px;
+    background-color: #404040;
+    margin-top: 15vh;
+    border-radius: 30px;
+}
+.login a{
+    text-decoration: none;
+    color: rgb(104, 104, 104);
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+.logo{
+    margin-top: 30px;
+    width: 100px;
+    height: auto;
+}
+.connectinfo{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin:10px;
+    color: white;
+}
+.connectinfo input{
+    width: 300px;
+    background-color: #ffffff00;
+    color: white;
+    border-color: #00000000;
+    border-bottom-color: rgb(115, 115, 115);
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 30px;
+    outline: none;
+    padding-left: 10px;
+    font-size: 1.1em;
+}
+.connectinfo input:focus{
+    border-color: #00000000;
+    border-bottom-color: rgb(247, 97, 17);
+
+}
+.connectinfo label{
+    padding: 10px;
+
+}
+.connectinfo button{
+    color: #565656;
+    background-color: #565656;
+    border-color: #565656;
+    border-radius: 15px;
+    width: 300px;
+    height: 45px;
+    margin-top: 20px;
+    background-color: rgb(247, 97, 17);
+    font-family: Roboto;
+    font-size: 1.3em;
+}
+.connectinfo p{
+    text-align: right;
+    color: rgb(104, 104, 104)
+}
