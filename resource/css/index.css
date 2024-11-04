@@ -38,7 +38,7 @@ body {
   opacity: 1;
 }
 
-.slide img {
+.slide img, svg {
   width: 100%;
   height: auto;
 }
