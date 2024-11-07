@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Terminal";
-    src: url(terminal.ttf);
+    src: url(../fonts/terminal.ttf);
   }
 
 /* Style général pour la zone CRT */
