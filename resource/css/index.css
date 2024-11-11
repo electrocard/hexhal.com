@@ -70,26 +70,25 @@ body {
 
 #bandeau {
 position: fixed;
-top: 0;
-left: 0;
 width: 100%;
 background-color: #262626;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px;
 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-#logo {
-height: 50px;
-}
-#buttons {
 display: flex;
-gap: 10px;
-padding-right: 200px;
+justify-content: center;
+align-items: center;
+height: 70px;
 }
-.button1 {
-padding: 10px 20px;
+
+.button1{
+  padding-right: 0px;
+  display: flex;
+  height: 40px;
+  right: 0;
+  margin-right: 200px;
+  position: absolute;
+  vertical-align: baseline;
+}
+.login-button {
 background-color: #ff7300;
 color: white;
 border: none;
@@ -98,7 +97,7 @@ cursor: pointer;
 font-family: Roboto;
 font-size: 1em;
 }
-.button1:hover {
+.login-button:hover {
 background-color: #ffa155;
 }
 .button2 {
@@ -110,11 +109,18 @@ background-color: #ffa155;
   cursor: pointer;
   font-family: Roboto;
   font-size: 1em;
+  align-items: center;
+  margin: 0 10px;
 }
 .button2:hover {
   background-color: #ff9f51;
 }
 
 .logo{
-padding-left: 200px;
+padding-left: 0px;
+display: flex;
+height: 50px;
+margin-left: 200px;
+position: absolute;
+left: 0;
 }
