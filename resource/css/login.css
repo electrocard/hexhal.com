@@ -9,7 +9,7 @@ body{
     font-family: Roboto;
     margin:0;
     padding: 0;
-    background-color: #565656 ;
+    background-color: #404040 ;
 }
 footer{
     display: flex;
@@ -74,7 +74,7 @@ footer{
 
 }
 .connectinfo button{
-    color: #565656;
+    color: white;
     background-color: #565656;
     border-color: #565656;
     border-radius: 15px;
