@@ -18,7 +18,7 @@ footer{
     height: 50px;
     position: absolute;
     bottom: 0;
-    background-color: #404040;
+    background-color: #262626;
     color: white;
     width: 100%;
 }
@@ -29,7 +29,7 @@ footer{
     align-items: center;
     width: 400px ;
     height: 600px;
-    background-color: #404040;
+    background-color: #262626;
     margin-top: 15vh;
     border-radius: 30px;
 }
