@@ -9,16 +9,16 @@ body{
     font-family: Roboto;
     margin:0;
     padding: 0;
-    background-color: #565656;
+    background-color: #404040 ;
 }
 footer{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 10vh;
+    height: 50px;
     position: absolute;
     bottom: 0;
-    background-color: #404040;
+    background-color: #262626;
     color: white;
     width: 100%;
 }
@@ -27,10 +27,10 @@ footer{
     color: rgb(104, 104, 104);
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    width: 400px ;
     height: 600px;
-    background-color: #404040;
-    margin-top: 15vh;
+    background-color: #262626;
+    margin-top: 7vh;
     border-radius: 30px;
 }
 .login a{
@@ -74,7 +74,7 @@ footer{
 
 }
 .connectinfo button{
-    color: #565656;
+    color: white;
     background-color: #565656;
     border-color: #565656;
     border-radius: 15px;
