@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier avec événements</title>
+    <style>
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .calendar-day {
+            border: 1px solid #ccc;
+            padding: 5px;
+            min-height: 100px;
+        }
+        .event-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-top: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div id="calendar"></div>
+    <button id="addEventBtn">Ajouter un événement</button>
+    <div id="eventDialog" class="modal">
+        <div class="modal-content">
+            <h2>Ajouter un événement</h2>
+            <form id="eventForm">
+                <label for="eventName">Nom:</label>
+                <input type="text" id="eventName" required><br>
+                <label for="eventDate">Date:</label>
+                <input type="date" id="eventDate" required><br>
+                <label for="eventTime">Heure:</label>
+                <input type="time" id="eventTime"><br>
+                <label for="eventRecurrence">Récurrence:</label>
+                <select id="eventRecurrence">
+                    <option value="Aucune">Aucune</option>
+                    <option value="Hebdomadaire">Hebdomadaire</option>
+                    <option value="Mensuelle">Mensuelle</option>
+                </select><br>
+                <label for="eventType">Type d'événement:</label>
+                <select id="eventType"></select><br>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+    <div id="dayViewDialog" class="modal">
+        <div class="modal-content">
+            <h2 id="dayViewTitle"></h2>
+            <div id="dayViewContent"></div>
+            <button id="closeDayViewBtn">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        const calendar = document.getElementById('calendar');
+        const addEventBtn = document.getElementById('addEventBtn');
+        const eventDialog = document.getElementById('eventDialog');
+        const eventForm = document.getElementById('eventForm');
+        const dayViewDialog = document.getElementById('dayViewDialog');
+        const closeDayViewBtn = document.getElementById('closeDayViewBtn');
+        let events = {};
+        let customEventTypes = {};
+
+        function loadCustomEventTypes() {
+            // Simuler le chargement des types d'événements personnalisés
+            customEventTypes = {
+                "Réunion": { name: "Réunion", category: "Travail", color: "#FF0000" },
+                "Anniversaire": { name: "Anniversaire", category: "Personnel", color: "#00FF00" }
+            };
+            const eventTypeSelect = document.getElementById('eventType');
+            eventTypeSelect.innerHTML = '<option value="Default">Default</option>';
+            for (const [key, value] of Object.entries(customEventTypes)) {
+                eventTypeSelect.innerHTML += `<option value="${key}">${key}</option>`;
+            }
+        }
+
+        function renderCalendar() {
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+            calendar.innerHTML = '';
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = i;
+                dayElement.addEventListener('click', () => showDayView(new Date(today.getFullYear(), today.getMonth(), i)));
+                
+                const dateStr = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+                if (events[dateStr]) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'event-indicator';
+                    indicator.style.backgroundColor = events[dateStr][0].color || '#3366CC';
+                    dayElement.appendChild(indicator);
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function addEvent(event) {
+            const dateStr = event.date;
+            if (!events[dateStr]) {
+                events[dateStr] = [];
+            }
+            events[dateStr].push(event);
+            localStorage.setItem('events', JSON.stringify(events));
+            renderCalendar();
+        }
+
+        function showDayView(date) {
+            const dateStr = date.toISOString().split('T')[0];
+            const dayEvents = events[dateStr] || [];
+            const dayViewContent = document.getElementById('dayViewContent');
+            dayViewContent.innerHTML = '';
+            
+            for (let hour = 0; hour < 24; hour++) {
+                const hourStr = `${hour.toString().padStart(2, '0')}:00`;
+                const hourEvents = dayEvents.filter(e => e.time && e.time.startsWith(hourStr));
+                
+                const hourElement = document.createElement('div');
+                hourElement.textContent = hourStr;
+                if (hourEvents.length > 0) {
+                    hourElement.textContent += ` - ${hourEvents.map(e => `${e.name} (${e.event_type || 'Default'})`).join(', ')}`;
+                }
+                dayViewContent.appendChild(hourElement);
+            }
+
+            document.getElementById('dayViewTitle').textContent = `Aperçu du ${date.toLocaleDateString()}`;
+            dayViewDialog.style.display = 'block';
+        }
+
+        addEventBtn.addEventListener('click', () => {
+            eventDialog.style.display = 'block';
+        });
+
+        eventForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newEvent = {
+                name: document.getElementById('eventName').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                recurrence: document.getElementById('eventRecurrence').value,
+                event_type: document.getElementById('eventType').value,
+                color: customEventTypes[document.getElementById('eventType').value]?.color
+            };
+            addEvent(newEvent);
+            eventDialog.style.display = 'none';
+            eventForm.reset();
+        });
+
+        closeDayViewBtn.addEventListener('click', () => {
+            dayViewDialog.style.display = 'none';
+        });
+
+        // Initialisation
+        loadCustomEventTypes();
+        events = JSON.parse(localStorage.getItem('events')) || {};
+        renderCalendar();
+    </script>
+</body>
+</html>

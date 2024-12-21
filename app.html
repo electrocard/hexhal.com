@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>APP</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+        }
+        .tabs{
+            background-color: rgb(64, 64, 64);
+            height: 100vh;
+            width: 20vw;
+            margin: 0;
+        }
+        .tab_button{
+            width: 98%;
+            height: 50px;
+            margin: 2px;
+            background-color: rgb(60, 60, 60);
+            border-radius: 15px;
+            border-color: rgb(50, 50, 50);
+            box-shadow: none;
+            color: white;
+            text-align: left;
+        }
+        .conversation{
+
+            display: flex;
+            flex-direction: column; /* Arrange les éléments en colonne (de haut en bas) */
+            justify-content: flex-start; /* Aligne les éléments en haut */
+            height: 100vh; /* Prend toute la hauteur de la fenêtre */
+            margin: 0; /* Supprime les marges par défaut */
+
+        }
+        .message-content{
+            display: flex;
+            justify-content: flex-start; /* Alignement des éléments à gauche */
+            height: 100px;
+            margin: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="tabs">
+        <button class="tab_button">Tab name</button>
+        <button class="tab_button">Tab name</button>
+        <button class="tab_button">Tab name</button>
+        <button class="tab_button">Tab name</button>
+        <button class="tab_button">Tab name</button>
+        </div>
+    <div class="conversation">
+        The Conversation
+        <div class="message-content">
+        <input class="message-input">
+        <button>Send</button>
+    </div>
+
+    <!--<script src="index.js"></script>-->
+  </body>
+</html>
