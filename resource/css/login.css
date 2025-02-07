@@ -84,7 +84,13 @@ footer{
     font-family: Roboto;
     font-size: 1.3em;
 }
+.connectinfo button:hover{
+    background-color: rgb(244, 126, 62);
+}
 .connectinfo p{
     text-align: right;
     color: rgb(104, 104, 104)
+}
+.connectinfo p:hover{
+    color: white;
 }
