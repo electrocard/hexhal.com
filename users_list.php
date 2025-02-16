@@ -8,9 +8,10 @@ function logError($message) {
 }
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['auth_token'])) {
-    $error_message = 'Utilisateur non connecté.';
-    $users = []; // Pas d'utilisateurs à afficher
+if (!isset($_SESSION['user_id'])) {
+    // Rediriger vers la page de connexion
+    header("Location: login.php");
+    exit(); // Assurez-vous d'appeler exit() après header() pour arrêter l'exécution du script
 } else {
     $user_id = $_SESSION['user_id'];
     $auth_token = $_SESSION['auth_token'];
