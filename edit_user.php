@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['auth_token'])) {
     exit;
 }
 
-// Vérifier si l'ID de l'utilisateur à éditer est fourni (pas nécessairement un entier)
+// Vérifier si l'ID de l'utilisateur à éditer est fourni
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     echo json_encode(['status' => 'error', 'message' => 'ID utilisateur manquant']);
     exit;
@@ -38,7 +38,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer les données de l'utilisateur à éditer
-    $stmt = $pdo->prepare("SELECT first_name, family_name, email, role FROM users WHERE user_id = :user_id OR username = :user_id");
+    $stmt = $pdo->prepare("SELECT first_name, family_name, email, role, society FROM users WHERE user_id = :user_id");
     $stmt->execute(['user_id' => $user_id_to_edit]);
     $user = $stmt->fetch();
 
@@ -49,10 +49,16 @@ try {
     }
 
     // Initialiser les valeurs à afficher dans le formulaire
-    $first_name = isset($user['first_name']) ? $user['first_name'] : '';
-    $family_name = isset($user['family_name']) ? $user['family_name'] : '';
-    $email = isset($user['email']) ? $user['email'] : '';
-    $role = isset($user['role']) ? $user['role'] : '';
+    $first_name = $user['first_name'] ?? '';
+    $family_name = $user['family_name'] ?? '';
+    $email = $user['email'] ?? '';
+    $role = $user['role'] ?? '';
+    $society = $user['society'] ?? '';
+
+    // Récupérer les rôles disponibles pour la société de l'utilisateur
+    $stmt_roles = $pdo->prepare("SELECT role_name FROM roles WHERE society = :society");
+    $stmt_roles->execute(['society' => $society]);
+    $roles = $stmt_roles->fetchAll(PDO::FETCH_ASSOC);
 
     // Si le formulaire a été soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -63,7 +69,7 @@ try {
         $role = $_POST['role'];
 
         // Mettre à jour les données dans la base de données pour cet utilisateur
-        $update_sql = "UPDATE users SET first_name = :first_name, family_name = :family_name, email = :email, role = :role WHERE user_id = :user_id OR username = :user_id";
+        $update_sql = "UPDATE users SET first_name = :first_name, family_name = :family_name, email = :email, role = :role WHERE user_id = :user_id";
         $update_stmt = $pdo->prepare($update_sql);
         $update_stmt->execute([
             'first_name' => $first_name,
@@ -90,7 +96,14 @@ try {
             <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required><br>
 
             <label for="role">Rôle</label>
-            <input type="text" id="role" name="role" value="<?php echo htmlspecialchars($role); ?>" required><br>
+            <select id="role" name="role" required>
+                <?php
+                foreach ($roles as $role_option) {
+                    $selected = ($role_option['role_name'] == $role) ? 'selected' : '';
+                    echo '<option value="' . htmlspecialchars($role_option['role_name']) . '" ' . $selected . '>' . htmlspecialchars($role_option['role_name']) . '</option>';
+                }
+                ?>
+            </select><br>
 
             <button type="submit">Mettre à jour</button>
         </form>
