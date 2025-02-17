@@ -138,15 +138,15 @@ try {
                 ?>
             </select><br>
 
-            <!-- Afficher le switch uniquement pour l'utilisateur root -->
-            <?php if ($is_root && $current_user_id != $user_id_to_edit): ?>
+            <!-- Afficher le switch uniquement pour l'utilisateur root qui édite un non-root -->
+            <?php if ($is_root && $current_user_id != $user_id_to_edit && $user['root'] != 1): ?>
                 <label for="rank">Rank</label><br>
                 <input type="radio" id="admin" name="rank" value="admin" <?php echo ($rank == 'admin') ? 'checked' : ''; ?>>
                 <label for="admin">Admin</label><br>
                 <input type="radio" id="none" name="rank" value="none" <?php echo ($rank == 'none') ? 'checked' : ''; ?>>
                 <label for="none">None</label><br>
             <?php else: ?>
-                <p><strong>Le switch de rank n'est visible que pour l'utilisateur root.</strong></p>
+                <p><strong>Le switch de rank n'est visible que pour un utilisateur root qui édite un non-root.</strong></p>
             <?php endif; ?>
 
             <button type="submit">Mettre à jour</button>
