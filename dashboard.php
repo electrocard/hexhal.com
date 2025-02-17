@@ -93,15 +93,17 @@ try {
             flex-direction: column;
             min-height: 100vh;
             margin: 0 !important;
+            background-color: #575757; /* Fond sombre */
+            color: #ffffff; /* Texte blanc */
         }
 
         /* Barre supérieure */
         .topbar {
             position: relative;
             width: calc(100% - 250px);
-            height: 50px;
-            background-color: #007bff;
-            color: white;
+            height: 70px;
+            background-color:#ffffff; /* Gris foncé */
+            color: black;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -110,6 +112,8 @@ try {
             font-weight: bold;
             z-index: 1000;
             margin-left: 250px;
+            border-bottom: 2px solid rgb(244,244,244);
+            
         }
 
         .topbar .user-info {
@@ -122,13 +126,14 @@ try {
             top: 0;
             left: 0;
             width: 250px;
-            background-color: #f4f4f4;
+            background-color: rgb(246,246, 255); /* Gris moyen */
             padding: 20px;
-            border-right: 1px solid #ddd;
+            border-right: 1px solid rgb(233,234,240);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            color: black; /* Texte blanc */
         }
 
         .sidebar-header {
@@ -151,13 +156,15 @@ try {
         .sidebar ul li {
             padding: 10px;
             cursor: pointer;
-            border-bottom: 1px solid #ddd;
+            border-bottom: none; /* Pas de bordure entre les éléments */
+            border-radius:10px;
             display: flex;
             align-items: center;
+            
         }
 
         .sidebar ul li:hover, .sidebar ul li.active {
-            background-color: #007bff;
+            background-color:rgb(255, 129, 95); /* Orange */
             color: white;
         }
 
@@ -173,7 +180,7 @@ try {
         }
 
         .submenu li:hover {
-            background-color: #0056b3;
+            background-color: #FF7048; /* Orange clair */
         }
 
         .arrow {
@@ -190,6 +197,10 @@ try {
         .content {
             margin-left: 250px;
             flex-grow: 1;
+            background-color: rgb(255,255,255); /* Fond sombre */
+            padding: 20px;
+            color: black;
+            
         }
 
         .tab-content {
@@ -198,6 +209,41 @@ try {
 
         .tab-content.active {
             display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #444444; /* Bordure grise */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #FF4C19; /* Orange */
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #333333; /* Gris foncé */
+        }
+        .sidebar-button{
+            width:1em;
+            height:auto;
+            margin-right:6px;
+        }
+        .sidebar-button-2{
+            width:1em;
+            height:auto;
+            margin-left:15px;
+            margin-right:6px;
         }
     </style>
 </head>
@@ -214,31 +260,31 @@ try {
 <div class="sidebar">
     <a href="index.html">    
     <div class="sidebar-header">
-        <img src="resource/logo/hexhal_banner.svg" alt="Logo Hexhal" style="width:200px;height:auto;">
+        <img src="resource/logo/hexhal_banner.png" alt="Logo Hexhal" style="width:200px;height:auto;">
     </div>
     </a>
 
     <ul>
-        <li class="tab-link active" data-tab="tab-1"><img src="resource/icon/home.png" style="width:1em;height:auto;margin-right:4px;">  Accueil</li>
-        <li class="tab-link" data-tab="tab-2"><img src="resource/icon/info.png" style="width:1em;height:auto;margin-right:4px;">  Informations</li>
+        <li class="tab-link active" data-tab="tab-1"><img src="resource/icon/home.png" class="sidebar-button">  Accueil</li>
+        <li class="tab-link" data-tab="tab-2"><img src="resource/icon/info.png" class="sidebar-button">  Informations</li>
 
         <?php if ($isAdmin): ?>
-            <li class="tab-link" id="adminMenu"><img src="resource/icon/wrench.png" style="width:1em;height:auto;margin-right:4px;">
+            <li class="tab-link" id="adminMenu"><img src="resource/icon/wrench.png" class="sidebar-button">
                 Administration <span class="arrow" id="adminArrow">→</span>
             </li>
             <ul class="submenu" id="adminSubMenu">
-                <li class="tab-link" data-tab="tab-3"><img src="resource/icon/user.png" style="width:1em;height:auto;margin-right:4px;">  Utilisateurs</li>
-                <li class="tab-link" data-tab="tab-4"><img src="resource/icon/group.png" style="width:1em;height:auto;margin-right:4px;">  Rôles</li>
+                <li class="tab-link" data-tab="tab-3"><img src="resource/icon/user.png" class="sidebar-button-2">  Utilisateurs</li>
+                <li class="tab-link" data-tab="tab-4"><img src="resource/icon/group.png" class="sidebar-button-2">  Rôles</li>
             </ul>
         <?php endif; ?>
 
         <!-- Onglet "isApplied" visible si la société a isApplied = 1 -->
         <?php if ($isApplied): ?>
-            <li class="tab-link" data-tab="tab-5"><img src="resource/logo/applied_logo.png" style="width:1em;height:auto;margin-right:4px;">  Applied</li>
+            <li class="tab-link" data-tab="tab-5"><img src="resource/logo/applied_logo.png" class="sidebar-button">  Applied</li>
         <?php endif; ?>
 
         <li onclick="window.location.href='logout.php';" style="cursor: pointer;">
-            <img src="resource/icon/logout.png" style="width:1em;height:auto;margin-right:4px;">Se déconnecter
+            <img src="resource/icon/logout.png" class="sidebar-button">Se déconnecter
         </li>
     </ul>
 </div>

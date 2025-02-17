@@ -64,14 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $role_weight = $_POST['role_weight'];
 
     try {
-        $stmt = $pdo->prepare("UPDATE roles SET role_name = :role_name, role_weight = :role_weight WHERE role_id = :role_id");
+        $stmt = $pdo->prepare("UPDATE roles SET role_name = :role_name, role_weight = :role_weight WHERE id = :id");
         $stmt->execute([
             'role_name' => $role_name,
             'role_weight' => $role_weight,
-            'role_id' => $role['role_id']
+            'id' => $role['id']
         ]);
 
-        $message = "Rôle mis à jour avec succès !";
+        // Redirection vers roles_list.php après l'application des modifications
+        header("Location: roles_list.php");
+        exit();
     } catch (PDOException $e) {
         $message = "Erreur de base de données: " . $e->getMessage();
     }
@@ -101,7 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <label for="role_weight">Poids du rôle</label>
     <input type="number" id="role_weight" name="role_weight" value="<?php echo htmlspecialchars($role['role_weight']); ?>" required><br><br>
 
-    <button type="submit">Mettre à jour le rôle</button>
+    <button type="submit">Appliquer les modifications</button>
+    <a href="roles_list.php"><button type="button">Annuler</button></a>
 </form>
 
 </body>

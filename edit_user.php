@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 if (!isset($_SESSION['user_id'])) {
     // Rediriger vers la page de connexion
     header("Location: login.php");
-    exit(); // Assurez-vous d'appeler exit() après header() pour arrêter l'exécution du script
+    exit();
 }
 
 // Vérifier si l'ID de l'utilisateur à éditer est fourni
@@ -18,6 +18,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $user_id_to_edit = $_GET['id']; // L'ID de l'utilisateur à éditer
+$current_user_id = $_SESSION['user_id']; // L'ID de l'utilisateur connecté
 
 // Configuration de la base de données
 $configFile = __DIR__ . '/hexhal_info.json';
@@ -39,7 +40,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer les données de l'utilisateur à éditer
-    $stmt = $pdo->prepare("SELECT first_name, family_name, email, role, society FROM users WHERE user_id = :user_id");
+    $stmt = $pdo->prepare("SELECT first_name, family_name, email, role, society, root, rank FROM users WHERE user_id = :user_id");
     $stmt->execute(['user_id' => $user_id_to_edit]);
     $user = $stmt->fetch();
 
@@ -49,12 +50,27 @@ try {
         exit;
     }
 
+    // Récupérer les informations de l'utilisateur connecté pour vérifier s'il est un root
+    $stmt_current_user = $pdo->prepare("SELECT root FROM users WHERE user_id = :user_id");
+    $stmt_current_user->execute(['user_id' => $current_user_id]);
+    $current_user = $stmt_current_user->fetch();
+
+    // Vérifier si l'utilisateur connecté est un root
+    $is_root = $current_user['root'] == 1;
+
     // Initialiser les valeurs à afficher dans le formulaire
     $first_name = $user['first_name'] ?? '';
     $family_name = $user['family_name'] ?? '';
     $email = $user['email'] ?? '';
     $role = $user['role'] ?? '';
     $society = $user['society'] ?? '';
+    $rank = $user['rank'] ?? '';  // Récupérer le rank de l'utilisateur
+
+    // Si l'utilisateur connecté essaie de s'éditer lui-même et n'est pas root, il est redirigé
+    if ($current_user_id == $user_id_to_edit && !$is_root) {
+        echo json_encode(['status' => 'error', 'message' => 'Vous ne pouvez pas vous éditer vous-même à moins d\'être un administrateur root.']);
+        exit;
+    }
 
     // Récupérer les rôles disponibles pour la société de l'utilisateur
     $stmt_roles = $pdo->prepare("SELECT role_name FROM roles WHERE society = :society");
@@ -68,17 +84,33 @@ try {
         $family_name = $_POST['family_name'];
         $email = $_POST['email'];
         $role = $_POST['role'];
+        $rank = $_POST['rank'];  // Récupérer le nouveau rang (admin ou none)
 
-        // Mettre à jour les données dans la base de données pour cet utilisateur
-        $update_sql = "UPDATE users SET first_name = :first_name, family_name = :family_name, email = :email, role = :role WHERE user_id = :user_id";
-        $update_stmt = $pdo->prepare($update_sql);
-        $update_stmt->execute([
-            'first_name' => $first_name,
-            'family_name' => $family_name,
-            'email' => $email,
-            'role' => $role,
-            'user_id' => $user_id_to_edit
-        ]);
+        // Vérifier si l'utilisateur connecté est root et s'il modifie un autre utilisateur
+        if ($is_root && $current_user_id != $user_id_to_edit) {
+            // Mettre à jour les données dans la base de données pour cet utilisateur
+            $update_sql = "UPDATE users SET first_name = :first_name, family_name = :family_name, email = :email, role = :role, rank = :rank WHERE user_id = :user_id";
+            $update_stmt = $pdo->prepare($update_sql);
+            $update_stmt->execute([
+                'first_name' => $first_name,
+                'family_name' => $family_name,
+                'email' => $email,
+                'role' => $role,
+                'rank' => $rank,
+                'user_id' => $user_id_to_edit
+            ]);
+        } else {
+            // Mettre à jour seulement les informations autres que le rank
+            $update_sql = "UPDATE users SET first_name = :first_name, family_name = :family_name, email = :email, role = :role WHERE user_id = :user_id";
+            $update_stmt = $pdo->prepare($update_sql);
+            $update_stmt->execute([
+                'first_name' => $first_name,
+                'family_name' => $family_name,
+                'email' => $email,
+                'role' => $role,
+                'user_id' => $user_id_to_edit
+            ]);
+        }
 
         // Redirection vers la page du tableau de bord après la mise à jour
         header("Location: dashboard.php");
@@ -106,7 +138,19 @@ try {
                 ?>
             </select><br>
 
+            <!-- Afficher le switch uniquement pour l'utilisateur root -->
+            <?php if ($is_root && $current_user_id != $user_id_to_edit): ?>
+                <label for="rank">Rank</label><br>
+                <input type="radio" id="admin" name="rank" value="admin" <?php echo ($rank == 'admin') ? 'checked' : ''; ?>>
+                <label for="admin">Admin</label><br>
+                <input type="radio" id="none" name="rank" value="none" <?php echo ($rank == 'none') ? 'checked' : ''; ?>>
+                <label for="none">None</label><br>
+            <?php else: ?>
+                <p><strong>Le switch de rank n'est visible que pour l'utilisateur root.</strong></p>
+            <?php endif; ?>
+
             <button type="submit">Mettre à jour</button>
+            <a href="dashboard.php"><button type="button">Annuler</button></a>
         </form>
         <?php
     }
