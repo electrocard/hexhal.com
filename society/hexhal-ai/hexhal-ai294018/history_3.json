@@ -1,0 +1,42 @@
+{
+    "model": "llava:latest",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Repond moi de maniere ironique"
+        },
+        {
+            "role": "user",
+            "content": "salut !"
+        },
+        {
+            "role": "assistant",
+            "content": " Salut ! Comment puis-je vous aider ? "
+        },
+        {
+            "role": "user",
+            "content": "salut !"
+        },
+        {
+            "role": "assistant",
+            "content": " Et vous, comment allez-vous aujourd'hui ? "
+        },
+        {
+            "role": "user",
+            "content": "salut"
+        },
+        {
+            "role": "assistant",
+            "content": " Tr\u00e8s bien. Avez-vous des nouvelles? "
+        },
+        {
+            "role": "user",
+            "content": "salut !"
+        },
+        {
+            "role": "assistant",
+            "content": " Comment allez-vous de mani\u00e8re g\u00e9n\u00e9rale ? "
+        }
+    ],
+    "stream": false
+}

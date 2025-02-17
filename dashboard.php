@@ -57,195 +57,9 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resource/css/global.css">
+    <link rel="stylesheet" href="resource/css/dashboard.css">
     <title>Tableau de bord</title>
-    <style>
-        iframe {
-            width: 100%;
-            height: 90vh;
-            bottom: 0;
-            border: none;
-        }
-        @font-face {
-            font-family: 'Braggadocio';
-            src: url('resource/fonts/braggadocio.ttf');
-            font-weight: normal;
-            font-style: normal;
-        }
-        .sidebar-header {
-            font-family: 'Braggadocio';
-            display: flex;
-            align-items: center;
-        }
-        a {
-            color: inherit; 
-            text-decoration: none;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0 !important;
-            background-color: #575757; /* Fond sombre */
-            color: #ffffff; /* Texte blanc */
-        }
-
-        /* Barre supérieure */
-        .topbar {
-            position: relative;
-            width: calc(100% - 250px);
-            height: 70px;
-            background-color:#ffffff; /* Gris foncé */
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            font-size: 16px;
-            font-weight: bold;
-            z-index: 1000;
-            margin-left: 250px;
-            border-bottom: 2px solid rgb(244,244,244);
-            
-        }
-
-        .topbar .user-info {
-            margin-left: auto;
-        }
-
-        /* Barre latérale */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            background-color: rgb(246,246, 255); /* Gris moyen */
-            padding: 20px;
-            border-right: 1px solid rgb(233,234,240);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            color: black; /* Texte blanc */
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .sidebar-header img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: none; /* Pas de bordure entre les éléments */
-            border-radius:10px;
-            display: flex;
-            align-items: center;
-            
-        }
-
-        .sidebar ul li:hover, .sidebar ul li.active {
-            background-color:rgb(255, 129, 95); /* Orange */
-            color: white;
-        }
-
-        .submenu {
-            display: none;
-            list-style-type: none;
-            padding-left: 20px;
-        }
-
-        .submenu li {
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        .submenu li:hover {
-            background-color: #FF7048; /* Orange clair */
-        }
-
-        .arrow {
-            margin-left: auto;
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .arrow.down {
-            transform: rotate(90deg);
-        }
-
-        /* Contenu principal */
-        .content {
-            margin-left: 250px;
-            flex-grow: 1;
-            background-color: rgb(255,255,255); /* Fond sombre */
-            padding: 20px;
-            color: black;
-            
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #444444; /* Bordure grise */
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #FF4C19; /* Orange */
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #333333; /* Gris foncé */
-        }
-        .sidebar-button{
-            width:1em;
-            height:auto;
-            margin-right:6px;
-        }
-        .sidebar-button-2{
-            width:1em;
-            height:auto;
-            margin-left:15px;
-            margin-right:6px;
-        }
-    </style>
 </head>
 <body>
 
@@ -273,6 +87,7 @@ try {
                 Administration <span class="arrow" id="adminArrow">→</span>
             </li>
             <ul class="submenu" id="adminSubMenu">
+                <li class="tab-link" data-tab="tab-6"><img src="resource/icon/briefcase.png" class="sidebar-button-2">  Apparence</li>
                 <li class="tab-link" data-tab="tab-3"><img src="resource/icon/user.png" class="sidebar-button-2">  Utilisateurs</li>
                 <li class="tab-link" data-tab="tab-4"><img src="resource/icon/group.png" class="sidebar-button-2">  Rôles</li>
             </ul>
@@ -322,6 +137,13 @@ try {
                 id="dashboardIframe"
                 title="Dashboard External Page"
                 src="roles_list.php">
+            </iframe>
+        </div>
+        <div id="tab-6" class="tab-content">
+            <iframe
+                id="dashboardIframe"
+                title="Dashboard External Page"
+                src="edit_society.php">
             </iframe>
         </div>
     <?php endif; ?>

@@ -1,0 +1,9 @@
+{
+    "model_name": "Mistral 8B",
+    "model": "mistral:latest",
+    "fonction": "Accepte les demandes textuelles.",
+    "society": "Hexhal AI Inc.",
+    "server_ip": "localhost",
+    "accept": "text",
+    "embeding": "yes"
+}

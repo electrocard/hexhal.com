@@ -1,0 +1,16 @@
+{
+    "history": [
+        {
+            "name": "temp",
+            "file": "chat_history.pkl"
+        },
+        {
+            "name": "test1",
+            "file": "chat_history3.pkl"
+        },
+        {
+            "name": "Chat 2",
+            "file": "chat_history2.pkl"
+        }
+    ]
+}
