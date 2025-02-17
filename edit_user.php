@@ -113,7 +113,7 @@ try {
         }
 
         // Redirection vers la page du tableau de bord après la mise à jour
-        header("Location: dashboard.php");
+        header("Location: users_list.php");
         exit; // Important pour éviter de continuer le script après la redirection
     } else {
         // Afficher le formulaire avec les données actuelles de l'utilisateur
@@ -150,7 +150,7 @@ try {
             <?php endif; ?>
 
             <button type="submit">Mettre à jour</button>
-            <a href="dashboard.php"><button type="button">Annuler</button></a>
+            <a href="users_list.php"><button type="button">Annuler</button></a>
         </form>
         <?php
     }
